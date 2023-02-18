@@ -2,22 +2,23 @@
 
 namespace Illuminate\Notifications\Tests\Feature;
 
-use Vonage\Client;
-use Vonage\Client\Credentials\Basic;
+
+use Illuminate\Notifications\Client\Client;
 
 class ClientBasicAPICredentialsTest extends FeatureTestCase
 {
     protected function getEnvironmentSetUp($app)
     {
-        $app['config']->set('vonage.api_key', 'my_api_key');
-        $app['config']->set('vonage.api_secret', 'my_secret');
+        $app['config']->set('labsmobile.username', 'user');
+        $app['config']->set('labsmobile.password', '123456');
+
     }
 
     public function testClientCreatedWithBasicAPICredentials()
     {
         $credentials = $this->app->make(Client::class)->getCredentials();
 
-        $this->assertInstanceOf(Basic::class, $credentials);
-        $this->assertEquals(['api_key' => 'my_api_key', 'api_secret' => 'my_secret'], $credentials->asArray());
+        //$this->assertInstanceOf(Basic::class, $credentials);
+        $this->assertEquals(['username' => 'user', 'password' => '123456'], $credentials);
     }
 }

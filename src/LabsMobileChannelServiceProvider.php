@@ -2,13 +2,13 @@
 
 namespace Illuminate\Notifications;
 
-use Illuminate\Notifications\Channels\VonageSmsChannel;
+use Illuminate\Notifications\Channels\LabsMobileSmsChannel;
+use Illuminate\Notifications\Client\Client;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\ServiceProvider;
 use RuntimeException;
-use Vonage\Client;
 
-class VonageChannelServiceProvider extends ServiceProvider
+class LabsMobileChannelServiceProvider extends ServiceProvider
 {
     /**
      * Register the application services.
@@ -17,10 +17,10 @@ class VonageChannelServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->mergeConfigFrom(__DIR__.'/../config/vonage.php', 'vonage');
+        $this->mergeConfigFrom(__DIR__ . '/../config/labsmobile.php', 'labsmobile');
 
         $this->app->singleton(Client::class, function ($app) {
-            $config = $app['config']['vonage'];
+            $config = $app['config']['labsmobile'];
 
             $httpClient = null;
 
@@ -28,23 +28,23 @@ class VonageChannelServiceProvider extends ServiceProvider
                 $httpClient = $app->make($httpClient);
             } elseif (! class_exists('GuzzleHttp\Client')) {
                 throw new RuntimeException(
-                    'The Vonage client requires a "psr/http-client-implementation" class such as Guzzle.'
+                    'The LabsMobile client requires a "psr/http-client-implementation" class such as Guzzle.'
                 );
             }
 
-            return Vonage::make($app['config']['vonage'], $httpClient)->client();
+            return LabsMobile::make($app['config']['labsmobile'], $httpClient)->client();
         });
 
-        $this->app->bind(VonageSmsChannel::class, function ($app) {
-            return new VonageSmsChannel(
+        $this->app->bind(LabsMobileSmsChannel::class, function ($app) {
+            return new LabsMobileSmsChannel(
                 $app->make(Client::class),
-                $app['config']['vonage.sms_from']
+                $app['config']['labsmobile.sms_from']
             );
         });
 
         Notification::resolved(function (ChannelManager $service) {
-            $service->extend('vonage', function ($app) {
-                return $app->make(VonageSmsChannel::class);
+            $service->extend('labsmobile', function ($app) {
+                return $app->make(LabsMobileSmsChannel::class);
             });
         });
     }
@@ -58,8 +58,8 @@ class VonageChannelServiceProvider extends ServiceProvider
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
-                __DIR__.'/../config/vonage.php' => $this->app->configPath('vonage.php'),
-            ], 'vonage');
+                __DIR__ . '/../config/labsmobile.php' => $this->app->configPath('labsmobile.php'),
+            ], 'labsmobile');
         }
     }
 }

@@ -1,7 +1,7 @@
 {
-    "name": "laravel/vonage-notification-channel",
-    "description": "Vonage Notification Channel for laravel.",
-    "keywords": ["laravel", "notifications", "vonage", "nexmo"],
+    "name": "carlosjs23/labsmobile-notification-channel",
+    "description": "LabsMobile Notification Channel for laravel.",
+    "keywords": ["laravel", "notifications", "labsmobile", "sms"],
     "license": "MIT",
     "authors": [
         {
@@ -39,14 +39,14 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "3.x-dev"
+            "dev-master": "1.x-dev"
         },
         "laravel": {
             "providers": [
-                "Illuminate\\Notifications\\VonageChannelServiceProvider"
+                "LabsMobileChannelServiceProvider"
             ],
             "aliases": {
-                "Vonage": "Illuminate\\Notifications\\Facades\\Vonage"
+                "LabsMobile": "Illuminate\\Notifications\\Facades\\LabsMobile"
             }
         }
     },

@@ -2,7 +2,7 @@
 
 namespace Illuminate\Notifications\Messages;
 
-class VonageMessage
+class LabsMobileMessage
 {
     /**
      * The message content.
@@ -19,6 +19,13 @@ class VonageMessage
     public $from;
 
     /**
+     * The phone number the message should be sent to.
+     *
+     * @var string
+     */
+    public $to;
+
+    /**
      * The message type.
      *
      * @var string
@@ -26,9 +33,9 @@ class VonageMessage
     public $type = 'text';
 
     /**
-     * The custom Vonage client instance.
+     * The custom LabsMobile client instance.
      *
-     * @var \Vonage\Client|null
+     * @var \Illuminate\Notifications\Client\Client|null
      */
     public $client;
 
@@ -39,12 +46,6 @@ class VonageMessage
      */
     public $clientReference = '';
 
-    /**
-     * The webhook to be called with status updates.
-     *
-     * @var string
-     */
-    public $statusCallback = '';
 
     /**
      * Create a new message instance.
@@ -84,6 +85,19 @@ class VonageMessage
     }
 
     /**
+     * Set the phone number the message should be sent from.
+     *
+     * @param  string  $to
+     * @return $this
+     */
+    public function to($to)
+    {
+        $this->to = $to;
+
+        return $this;
+    }
+
+    /**
      * Set the message type.
      *
      * @return $this
@@ -96,7 +110,7 @@ class VonageMessage
     }
 
     /**
-     * Set the client reference (up to 40 characters).
+     * Set the client reference (up to 255 characters).
      *
      * @param  string  $clientReference
      * @return $this
@@ -109,22 +123,9 @@ class VonageMessage
     }
 
     /**
-     * Set the webhook callback URL to update the message status.
+     * Set the LabsMobile client instance.
      *
-     * @param  string  $callback
-     * @return $this
-     */
-    public function statusCallback(string $callback)
-    {
-        $this->statusCallback = $callback;
-
-        return $this;
-    }
-
-    /**
-     * Set the Vonage client instance.
-     *
-     * @param  \Vonage\Client  $clientReference
+     * @param  \Illuminate\Notifications\Client\Client  $client
      * @return $this
      */
     public function usingClient($client)

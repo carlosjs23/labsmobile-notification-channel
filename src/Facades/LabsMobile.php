@@ -3,9 +3,8 @@
 namespace Illuminate\Notifications\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use Vonage\Client;
 
-class Vonage extends Facade
+class LabsMobile extends Facade
 {
     /**
      * Get the registered name of the component.
