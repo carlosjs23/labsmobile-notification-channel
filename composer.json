@@ -43,7 +43,7 @@
         },
         "laravel": {
             "providers": [
-                "LabsMobileChannelServiceProvider"
+                "Illuminate\\Notifications\\LabsMobileChannelServiceProvider"
             ],
             "aliases": {
                 "LabsMobile": "Illuminate\\Notifications\\Facades\\LabsMobile"
